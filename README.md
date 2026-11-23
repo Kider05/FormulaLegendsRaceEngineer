@@ -1,8 +1,8 @@
 # Formula Legends Race Engineer
 
 A race engineer for the arcade F1 game *Formula Legends*. The game has no telemetry API, so the app reads
-the HUD straight off the screen, learns how each tyre compound behaves on each track, plans pit strategy
-live, and talks to you over a voice radio backed by a local LLM.
+the HUD from the screen, learns how each tyre compound behaves on each track, plans pitstop strategy
+live, and talks over a voice radio backed by a local LLM.
 
 Everything runs locally on Windows: no cloud services and no game modification.
 
