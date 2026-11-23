@@ -1,0 +1,2 @@
+# Installs the project (editable) with dev tools. Dependencies live in pyproject.toml.
+-e .[dev]

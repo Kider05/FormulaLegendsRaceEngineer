@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "formula-legends-race-engineer"
+version = "0.1.0"
+description = "Race engineer for Formula Legends: reads the HUD by screen capture, plans tyre strategy and talks on the radio."
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2",
+    "opencv-python>=4.10",
+    "mss>=10",
+    "psutil",
+    "pywin32; sys_platform == 'win32'",
+    "kokoro-onnx>=0.6",
+    "faster-whisper",
+    "sounddevice",
+    "pynput",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff", "mypy"]
+gpu = ["nvidia-cublas-cu12", "nvidia-cudnn-cu12"]
+
+[project.scripts]
+race-engineer = "gui.app:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+py-modules = ["paths", "log_setup"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "SIM", "UP", "I", "ARG"]
+ignore = [
+    "E501",    # line length is the formatter's job; long prompt/test strings stay readable as-is
+    "E731",    # small named lambdas are used as local helpers
+    "ARG005",  # Tk/trace callbacks receive arguments they don't need
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["engineer", "gui", "storage", "strategy", "telemetry", "paths", "log_setup", "helpers"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src"]
+mypy_path = "src"
+ignore_missing_imports = true
+warn_unused_ignores = true
+
+# Fully typed modules: new functions here must be typed too.
+[[tool.mypy.overrides]]
+module = ["strategy.race_types", "strategy.race_analysis", "strategy.tyre_model", "strategy.strategy_planner"]
+disallow_untyped_defs = true
